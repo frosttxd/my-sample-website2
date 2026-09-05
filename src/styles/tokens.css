@@ -1,0 +1,40 @@
+/**
+ * Design Tokens & Theme Variables
+ */
+:root {
+    /* Cream Palette */
+    --color-cream-50: #FDFBF9;
+    --color-cream-100: #FAF6F2;
+    --color-cream-200: #F5EFEB;
+    --color-cream-300: #ECE3DC;
+    --color-cream-400: #DDCFC4;
+    --color-cream-500: #C7B6A7;
+    --color-cream-600: #A89484;
+    --color-cream-700: #8A7565;
+    --color-cream-800: #645447;
+    --color-cream-900: #3D332B;
+
+    /* Blush Accent */
+    --color-blush-50: #FDF7F5;
+    --color-blush-100: #FCECE8;
+    --color-blush-200: #FADBD3;
+    --color-blush-300: #F5C4B7;
+    --color-blush-400: #EAA594;
+    --color-blush-500: #D9826F;
+    --color-blush-600: #C46752;
+    --color-blush-700: #A4503E;
+    --color-blush-800: #864132;
+    --color-blush-900: #6E382C;
+
+    /* Espresso Neutrals */
+    --color-espresso-500: #756D67;
+    --color-espresso-600: #5C544E;
+    --color-espresso-700: #433C37;
+    --color-espresso-800: #2E2824;
+    --color-espresso-900: #1F1A17;
+    --color-espresso-950: #14110E;
+
+    /* Typography */
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}

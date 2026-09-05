@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUREA | Çağdaş Mimari & Yaşam Alanları</title>
+    <meta name="description" content="Aurea Development — Doğayla bütünleşen çağdaş mimari, heykelsi yapılar ve seçkin yaşam alanları.">
+
+    <!-- Modern Architectural Typography Pairing (Clean, Humanist & Contemporary) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FDFBF9',
+                            100: '#FAF6F2',
+                            200: '#F5EFEB',
+                            300: '#ECE3DC',
+                            400: '#DDCFC4',
+                            500: '#C7B6A7',
+                            600: '#A89484',
+                            700: '#8A7565',
+                            800: '#645447',
+                            900: '#3D332B'
+                        },
+                        blush: {
+                            50: '#FDF7F5',
+                            100: '#FCECE8',
+                            200: '#FADBD3',
+                            300: '#F5C4B7',
+                            400: '#EAA594',
+                            500: '#D9826F',
+                            600: '#C46752',
+                            700: '#A4503E',
+                            800: '#864132',
+                            900: '#6E382C'
+                        },
+                        espresso: {
+                            500: '#756D67',
+                            600: '#5C544E',
+                            700: '#433C37',
+                            800: '#2E2824',
+                            900: '#1F1A17',
+                            950: '#14110E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        display: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-blush-200 selection:text-espresso-950">
+
+    <!-- ================= HIGH-QUALITY PINK-WHITE AMBIENT WAVE CANVAS ================= -->
+    <canvas id="wave-canvas"></canvas>
+
+    <!-- ================= FLOATING HEADER ================= -->
+    <header class="sticky top-0 z-40 bg-cream-100/80 backdrop-blur-xl border-b border-cream-300/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Minimal Architectural Mark Logo -->
+            <button onclick="switchTab('page-home')" class="flex items-center gap-3 group bg-transparent border-none cursor-pointer text-left focus:outline-none">
+                <div class="w-9 h-9 rounded-xl bg-espresso-950 text-cream-100 flex items-center justify-center shadow-sm group-hover:bg-espresso-900 transition-colors">
+                    <span class="font-display font-light text-base tracking-widest pl-0.5">A</span>
+                </div>
+                <span class="font-display text-lg font-semibold tracking-[0.18em] text-espresso-950 group-hover:text-blush-700 transition-colors">AUREA</span>
+            </button>
+
+            <!-- Soft Contemporary Navigation Tabs -->
+            <nav class="hidden lg:flex items-center gap-1.5 bg-cream-200/50 p-1.5 rounded-full border border-cream-300/60 backdrop-blur-md">
+                <button onclick="switchTab('page-home')" data-tab-target="page-home" class="nav-pill nav-pill-active">
+                    Ana Sayfa
+                </button>
+                <button onclick="switchTab('page-koleksiyon')" data-tab-target="page-koleksiyon" class="nav-pill">
+                    Koleksiyon
+                </button>
+                <button onclick="switchTab('page-mimari')" data-tab-target="page-mimari" class="nav-pill">
+                    Mimari Felsefe
+                </button>
+                <button onclick="switchTab('page-galeri')" data-tab-target="page-galeri" class="nav-pill">
+                    Görsel Galeri
+                </button>
+                <button onclick="switchTab('page-iletisim')" data-tab-target="page-iletisim" class="nav-pill">
+                    İletişim & Randevu
+                </button>
+            </nav>
+
+            <!-- Right CTA Button -->
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="switchTab('page-iletisim')" class="btn-primary cursor-pointer text-xs">
+                    <span>Özel Randevu Al</span>
+                    <svg class="w-3.5 h-3.5 text-blush-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button onclick="toggleMobileMenu()" aria-label="Menü" class="lg:hidden text-espresso-800 p-2 rounded-xl hover:bg-cream-200/60 transition-colors">
+                <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-drawer" class="hidden lg:hidden bg-cream-100/95 border-b border-cream-300/80 px-6 py-6 transition-all">
+            <div class="flex flex-col gap-2">
+                <button onclick="switchTab('page-home'); toggleMobileMenu();" class="text-left py-3 px-4 rounded-xl text-espresso-800 font-medium hover:bg-blush-50 transition-colors bg-transparent border-none">Ana Sayfa</button>
+                <button onclick="switchTab('page-koleksiyon'); toggleMobileMenu();" class="text-left py-3 px-4 rounded-xl text-espresso-800 font-medium hover:bg-blush-50 transition-colors bg-transparent border-none">Koleksiyon</button>
+                <button onclick="switchTab('page-mimari'); toggleMobileMenu();" class="text-left py-3 px-4 rounded-xl text-espresso-800 font-medium hover:bg-blush-50 transition-colors bg-transparent border-none">Mimari Felsefe</button>
+                <button onclick="switchTab('page-galeri'); toggleMobileMenu();" class="text-left py-3 px-4 rounded-xl text-espresso-800 font-medium hover:bg-blush-50 transition-colors bg-transparent border-none">Görsel Galeri</button>
+                <button onclick="switchTab('page-iletisim'); toggleMobileMenu();" class="text-left py-3 px-4 rounded-xl text-espresso-800 font-medium hover:bg-blush-50 transition-colors bg-transparent border-none">İletişim & Randevu</button>
+                <div class="pt-4 mt-2 border-t border-cream-200">
+                    <button onclick="switchTab('page-iletisim'); toggleMobileMenu();" class="btn-primary w-full text-center">
+                        Özel Randevu Talep Edin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT VIEWS ================= -->
+    <main class="flex-grow relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+            <!-- ================= TAB 1: ANA SAYFA ================= -->
+            <div id="page-home" class="page-view block">
+                
+                <!-- Clean Minimalist Hero Showcase -->
+                <section class="mb-16 pt-2 sm:pt-4">
+                    
+                    <!-- Header -->
+                    <div class="text-center max-w-3xl mx-auto mb-8">
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-light text-espresso-950 tracking-tight leading-tight mb-4">
+                            Sakin ve Çağdaş <span class="font-medium text-espresso-900">Yaşam Alanları.</span>
+                        </h1>
+                        <p class="text-sm sm:text-base text-espresso-600 font-normal leading-relaxed mb-6 max-w-xl mx-auto">
+                            Örnek lokasyonlarda modern mimariyle tasarlanan seçkin yaşam alanları.
+                        </p>
+                        <div class="flex items-center justify-center gap-3">
+                            <button onclick="switchTab('page-koleksiyon')" class="btn-primary text-xs">
+                                <span>Villaları Gör</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            </button>
+                            <button onclick="switchTab('page-iletisim')" class="btn-secondary text-xs">
+                                <span>İletişime Geç</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Clean Slider -->
+                    <div id="hero-slider" class="relative w-full rounded-3xl overflow-hidden shadow-xl border border-white/80 min-h-[420px] sm:min-h-[500px] lg:min-h-[540px] group bg-espresso-950">
+                        
+                        <!-- SLIDE 1: Villa 1 -->
+                        <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-100 z-10" data-slide="0">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=85" 
+                                 alt="Villa 1" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent"></div>
+                            
+                            <div class="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 flex items-end justify-between gap-4 text-white z-20">
+                                <div>
+                                    <span class="text-xs text-blush-300 font-medium">Örnek Lokasyon 1</span>
+                                    <h3 class="text-2xl sm:text-3xl font-semibold mt-0.5">Villa 1</h3>
+                                    <p class="text-xs text-cream-200 font-light mt-1">940 m² &bull; 6 Oda &bull; Havuzlu</p>
+                                </div>
+                                <button onclick="openEstateModal('solaria')" class="px-5 py-2.5 rounded-full bg-white text-espresso-950 hover:bg-cream-100 text-xs font-semibold tracking-wide transition-all shadow-md">
+                                    Detayları Gör &rarr;
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- SLIDE 2: Villa 2 -->
+                        <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0 pointer-events-none z-0" data-slide="1">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=85" 
+                                 alt="Villa 2" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent"></div>
+                            
+                            <div class="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 flex items-end justify-between gap-4 text-white z-20">
+                                <div>
+                                    <span class="text-xs text-blush-300 font-medium">Örnek Lokasyon 2</span>
+                                    <h3 class="text-2xl sm:text-3xl font-semibold mt-0.5">Villa 2</h3>
+                                    <p class="text-xs text-cream-200 font-light mt-1">680 m² &bull; 4 Oda &bull; Teraslı Dubleks</p>
+                                </div>
+                                <button onclick="openEstateModal('horizon')" class="px-5 py-2.5 rounded-full bg-white text-espresso-950 hover:bg-cream-100 text-xs font-semibold tracking-wide transition-all shadow-md">
+                                    Detayları Gör &rarr;
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- SLIDE 3: Villa 3 -->
+                        <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out opacity-0 pointer-events-none z-0" data-slide="2">
+                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85" 
+                                 alt="Villa 3" 
+                                 class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent"></div>
+                            
+                            <div class="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 flex items-end justify-between gap-4 text-white z-20">
+                                <div>
+                                    <span class="text-xs text-blush-300 font-medium">Örnek Lokasyon 3</span>
+                                    <h3 class="text-2xl sm:text-3xl font-semibold mt-0.5">Villa 3</h3>
+                                    <p class="text-xs text-cream-200 font-light mt-1">820 m² &bull; 5 Oda &bull; Bahçeli Malikâne</p>
+                                </div>
+                                <button onclick="openEstateModal('sanctuary')" class="px-5 py-2.5 rounded-full bg-white text-espresso-950 hover:bg-cream-100 text-xs font-semibold tracking-wide transition-all shadow-md">
+                                    Detayları Gör &rarr;
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Arrows -->
+                        <button onclick="changeHeroSlide(-1)" aria-label="Önceki" class="absolute top-1/2 left-4 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-espresso-950 shadow-md flex items-center justify-center transition-all cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        <button onclick="changeHeroSlide(1)" aria-label="Sonraki" class="absolute top-1/2 right-4 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-espresso-950 shadow-md flex items-center justify-center transition-all cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+
+                        <!-- Counter -->
+                        <div class="absolute top-4 right-4 z-30 flex items-center gap-1.5 bg-espresso-950/60 backdrop-blur-sm px-3 py-1 rounded-full text-white text-xs font-mono">
+                            <span id="slide-current">01</span>
+                            <span>/</span>
+                            <span>03</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Minimal Airy Unboxed Metrics Strip (Option C) -->
+                <section class="mb-20 py-8 px-4 sm:px-8 border-y border-espresso-900/10 bg-white/45 backdrop-blur-md rounded-2xl shadow-sm">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 divide-y sm:divide-y-0 sm:divide-x divide-espresso-900/10">
+                        
+                        <div class="pt-4 sm:pt-0 sm:px-4 text-center sm:text-left">
+                            <div class="font-display text-4xl sm:text-5xl font-light text-espresso-950 tracking-tight flex items-baseline justify-center sm:justify-start gap-1">
+                                <span>12</span>
+                                <span class="text-2xl text-blush-600 font-normal">+</span>
+                            </div>
+                            <div class="text-xs font-semibold text-espresso-900 uppercase tracking-wider mt-2">Seçkin Başyapıt</div>
+                            <p class="text-xs text-espresso-600 font-light mt-1">Özel sahil & tepe parselleri</p>
+                        </div>
+
+                        <div class="pt-4 sm:pt-0 sm:px-6 text-center sm:text-left">
+                            <div class="font-display text-4xl sm:text-5xl font-light text-espresso-950 tracking-tight flex items-baseline justify-center sm:justify-start gap-1">
+                                <span>45K</span>
+                                <span class="text-xl text-blush-600 font-normal">m²</span>
+                            </div>
+                            <div class="text-xs font-semibold text-espresso-900 uppercase tracking-wider mt-2">Geliştirilen Alan</div>
+                            <p class="text-xs text-espresso-600 font-light mt-1">Doğal topoğrafyaya saygılı planlama</p>
+                        </div>
+
+                        <div class="pt-4 sm:pt-0 sm:px-6 text-center sm:text-left">
+                            <div class="font-display text-4xl sm:text-5xl font-light text-espresso-950 tracking-tight flex items-baseline justify-center sm:justify-start gap-1">
+                                <span>%100</span>
+                            </div>
+                            <div class="text-xs font-semibold text-espresso-900 uppercase tracking-wider mt-2">Biyo-Klimatik Uyum</div>
+                            <p class="text-xs text-espresso-600 font-light mt-1">Güneş, rüzgar ve taş dengesi</p>
+                        </div>
+
+                        <div class="pt-4 sm:pt-0 sm:px-6 text-center sm:text-left">
+                            <div class="font-display text-4xl sm:text-5xl font-light text-espresso-950 tracking-tight flex items-baseline justify-center sm:justify-start gap-1">
+                                <span>18</span>
+                                <span class="text-base text-blush-600 font-medium tracking-normal">Ödül</span>
+                            </div>
+                            <div class="text-xs font-semibold text-espresso-900 uppercase tracking-wider mt-2">Tasarım Ödülü</div>
+                            <p class="text-xs text-espresso-600 font-light mt-1">Uluslararası mimari heyet takdiri</p>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Highlights Quick Switch Section -->
+                <section class="card-modern p-8 sm:p-12 rounded-3xl mb-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="max-w-xl">
+                        <span class="text-xs font-semibold text-blush-600 uppercase tracking-wider">Portföyü Keşfedin</span>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-espresso-950 mt-2 mb-3">Hayalinizdeki Yaşam Alanını Birlikte Tasarlayalım</h3>
+                        <p class="text-xs sm:text-sm text-espresso-600 font-light leading-relaxed">
+                            Mevcut villalarımızı ve penthouse dairelerimizi inceleyebilir veya sahip olduğunuz arazide sıfırdan anahtar teslim mimari projelendirme talep edebilirsiniz.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0">
+                        <button onclick="switchTab('page-koleksiyon')" class="btn-primary">
+                            <span>Tüm Koleksiyonu Gör</span>
+                            <svg class="w-4 h-4 text-blush-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ================= TAB 2: KOLEKSİYON ================= -->
+            <div id="page-koleksiyon" class="page-view hidden">
+                <div class="mb-10 text-center max-w-2xl mx-auto">
+                    <h2 class="text-3xl sm:text-4xl font-light text-espresso-950 tracking-tight mb-2">
+                        Villalar
+                    </h2>
+                    <p class="text-espresso-600 text-sm font-light">
+                        Tamamlanan ve satışta olan güncel projelerimiz.
+                    </p>
+                </div>
+
+                <!-- Clean 3-Card Minimalist Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16">
+                    
+                    <!-- Card 1: Villa 1 -->
+                    <div class="card-modern rounded-3xl overflow-hidden group cursor-pointer" onclick="openEstateModal('solaria')">
+                        <div class="relative aspect-[4/3] overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85" 
+                                 alt="Villa 1" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-cream-100/90 backdrop-blur-sm border border-cream-300/80 text-espresso-900 text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+                                Örnek Lokasyon 1
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-espresso-950 mb-3">Villa 1</h3>
+                            
+                            <div class="flex items-center justify-between pt-4 border-t border-cream-200">
+                                <span class="text-xs text-blush-700 font-medium">Detayları Gör &rarr;</span>
+                                <button onclick="event.stopPropagation(); selectPropertyAndContact('solaria')" class="text-xs bg-espresso-900 text-white px-3.5 py-1.5 rounded-lg hover:bg-espresso-800 transition-colors">
+                                    Randevu Al
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Villa 2 -->
+                    <div class="card-modern rounded-3xl overflow-hidden group cursor-pointer" onclick="openEstateModal('horizon')">
+                        <div class="relative aspect-[4/3] overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85" 
+                                 alt="Villa 2" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-cream-100/90 backdrop-blur-sm border border-cream-300/80 text-espresso-900 text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+                                Örnek Lokasyon 2
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-espresso-950 mb-3">Villa 2</h3>
+                            
+                            <div class="flex items-center justify-between pt-4 border-t border-cream-200">
+                                <span class="text-xs text-blush-700 font-medium">Detayları Gör &rarr;</span>
+                                <button onclick="event.stopPropagation(); selectPropertyAndContact('horizon')" class="text-xs bg-espresso-900 text-white px-3.5 py-1.5 rounded-lg hover:bg-espresso-800 transition-colors">
+                                    Randevu Al
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Villa 3 -->
+                    <div class="card-modern rounded-3xl overflow-hidden group cursor-pointer" onclick="openEstateModal('sanctuary')">
+                        <div class="relative aspect-[4/3] overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=85" 
+                                 alt="Villa 3" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3 bg-cream-100/90 backdrop-blur-sm border border-cream-300/80 text-espresso-900 text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+                                Örnek Lokasyon 3
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-espresso-950 mb-3">Villa 3</h3>
+                            
+                            <div class="flex items-center justify-between pt-4 border-t border-cream-200">
+                                <span class="text-xs text-blush-700 font-medium">Detayları Gör &rarr;</span>
+                                <button onclick="event.stopPropagation(); selectPropertyAndContact('sanctuary')" class="text-xs bg-espresso-900 text-white px-3.5 py-1.5 rounded-lg hover:bg-espresso-800 transition-colors">
+                                    Randevu Al
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bespoke Land Development Banner -->
+                <div class="card-modern p-8 sm:p-12 rounded-3xl border-l-4 border-l-blush-500 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <span class="text-xs font-semibold text-blush-700 uppercase tracking-wider">Özel Arsa & Tasarım Hizmeti</span>
+                        <h3 class="text-2xl sm:text-3xl font-semibold text-espresso-950 mt-1 mb-2">Kendi Arazinizde Aurea Standartları</h3>
+                        <p class="text-xs sm:text-sm text-espresso-600 font-light max-w-xl">
+                            Ege ve Akdeniz'deki arsanız için ruhsattan iç mimariye, peyzajdan anahtar teslime kadar tüm süreci Aurea mimarlık heyeti üstlenir.
+                        </p>
+                    </div>
+                    <button onclick="openEstateModal('land')" class="btn-primary shrink-0">
+                        <span>Hizmet Detayları</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= TAB 3: MİMARİ FELSEFE ================= -->
+            <div id="page-mimari" class="page-view hidden">
+                <div class="mb-10 text-center max-w-2xl mx-auto">
+                    <h2 class="text-3xl sm:text-4xl font-light text-espresso-950 tracking-tight mb-2">
+                        Mimari Yaklaşım
+                    </h2>
+                    <p class="text-espresso-600 text-sm font-light">
+                        Doğal malzeme, sağlam mühendislik ve zamansız tasarım ilkelerimiz.
+                    </p>
+                </div>
+
+                <!-- 4 Simple Feature Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    
+                    <div class="card-modern p-6 sm:p-8 rounded-3xl">
+                        <div class="w-10 h-10 rounded-xl bg-blush-100 border border-blush-200 flex items-center justify-center text-blush-700 mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-espresso-950 mb-1.5">Doğal Malzemeler</h3>
+                        <p class="text-xs text-espresso-600 font-light leading-relaxed">
+                            Yöresel taşlar, brüt beton ve kaliteli ahşap detaylar ile uzun yıllar bakım istemeyen dayanıklı yüzeyler.
+                        </p>
+                    </div>
+
+                    <div class="card-modern p-6 sm:p-8 rounded-3xl">
+                        <div class="w-10 h-10 rounded-xl bg-blush-100 border border-blush-200 flex items-center justify-center text-blush-700 mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-espresso-950 mb-1.5">Işık ve Ferahlık</h3>
+                        <p class="text-xs text-espresso-600 font-light leading-relaxed">
+                            Gün ışığını içeri alan geniş cam açıklıklar ve yaz aylarında serinlik sağlayan gölgelikli teraslar.
+                        </p>
+                    </div>
+
+                    <div class="card-modern p-6 sm:p-8 rounded-3xl">
+                        <div class="w-10 h-10 rounded-xl bg-blush-100 border border-blush-200 flex items-center justify-center text-blush-700 mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-espresso-950 mb-1.5">Deprem Güvenliği</h3>
+                        <p class="text-xs text-espresso-600 font-light leading-relaxed">
+                            Yüksek dayanımlı sismik betonarme taşıyıcılar ve bağımsız mühendislik denetimiyle tam zemin güvencesi.
+                        </p>
+                    </div>
+
+                    <div class="card-modern p-6 sm:p-8 rounded-3xl">
+                        <div class="w-10 h-10 rounded-xl bg-blush-100 border border-blush-200 flex items-center justify-center text-blush-700 mb-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-espresso-950 mb-1.5">Akıllı Ev Konforu</h3>
+                        <p class="text-xs text-espresso-600 font-light leading-relaxed">
+                            İklimlendirme, perde ve aydınlatmayı telefonunuzdan kolayca kontrol edebileceğiniz modern altyapı.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- 4 Step Development Process -->
+                <div class="card-modern p-6 sm:p-8 rounded-3xl">
+                    <h3 class="text-lg font-semibold text-espresso-950 text-center mb-6">İnşaat ve Teslim Süreci</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center sm:text-left">
+                        <div class="border-t-2 border-blush-400 pt-3">
+                            <span class="text-[10px] font-bold text-blush-600">01 / KEŞİF</span>
+                            <h4 class="text-sm font-semibold text-espresso-950 mt-0.5 mb-1">Zemin & Konum</h4>
+                            <p class="text-xs text-espresso-600 font-light">Arazi ve yön analizi.</p>
+                        </div>
+                        <div class="border-t-2 border-blush-400 pt-3">
+                            <span class="text-[10px] font-bold text-blush-600">02 / PLAN</span>
+                            <h4 class="text-sm font-semibold text-espresso-950 mt-0.5 mb-1">Mimari Proje</h4>
+                            <p class="text-xs text-espresso-600 font-light">Ferah ve fonksiyonel plan.</p>
+                        </div>
+                        <div class="border-t-2 border-blush-400 pt-3">
+                            <span class="text-[10px] font-bold text-blush-600">03 / İNŞAAT</span>
+                            <h4 class="text-sm font-semibold text-espresso-950 mt-0.5 mb-1">Kaliteli Yapım</h4>
+                            <p class="text-xs text-espresso-600 font-light">Sağlam taşıyıcı ve ince işçilik.</p>
+                        </div>
+                        <div class="border-t-2 border-blush-400 pt-3">
+                            <span class="text-[10px] font-bold text-blush-600">04 / TESLİM</span>
+                            <h4 class="text-sm font-semibold text-espresso-950 mt-0.5 mb-1">Anahtar Teslim</h4>
+                            <p class="text-xs text-espresso-600 font-light">10 yıl taşıyıcı garantisi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 4: GÖRSEL GALERİ ================= -->
+            <div id="page-galeri" class="page-view hidden">
+                <div class="mb-8 text-center max-w-2xl mx-auto">
+                    <h2 class="text-3xl sm:text-4xl font-light text-espresso-950 tracking-tight mb-2">
+                        Galeri
+                    </h2>
+                    <p class="text-espresso-600 text-sm font-light">
+                        Projelerimizden iç ve dış mekan fotoğrafları.
+                    </p>
+                </div>
+
+                <!-- Gallery Category Filters -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mb-8">
+                    <button onclick="switchGalleryTab('all')" data-gallery-filter="all" class="gallery-tab-btn px-4 py-2 rounded-full text-xs font-semibold bg-espresso-900 text-white border border-espresso-900 transition-all cursor-pointer">
+                        Tümü
+                    </button>
+                    <button onclick="switchGalleryTab('exterior')" data-gallery-filter="exterior" class="gallery-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-cream-100/90 text-espresso-700 border border-cream-300 hover:border-blush-300 transition-all cursor-pointer">
+                        Dış Cephe
+                    </button>
+                    <button onclick="switchGalleryTab('interior')" data-gallery-filter="interior" class="gallery-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-cream-100/90 text-espresso-700 border border-cream-300 hover:border-blush-300 transition-all cursor-pointer">
+                        Salon & Yaşam
+                    </button>
+                    <button onclick="switchGalleryTab('suites')" data-gallery-filter="suites" class="gallery-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-cream-100/90 text-espresso-700 border border-cream-300 hover:border-blush-300 transition-all cursor-pointer">
+                        Odalar & Banyo
+                    </button>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+                    <div class="gallery-item rounded-2xl overflow-hidden aspect-[4/3] relative group" data-category="exterior">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Villa 1 Terası" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-espresso-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-medium">Villa 1 &bull; Teras ve Havuz</div>
+                    </div>
+                    <div class="gallery-item rounded-2xl overflow-hidden aspect-[4/3] relative group" data-category="interior">
+                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80" alt="Villa 2 Salonu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-espresso-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-medium">Villa 2 &bull; Şömineli Ferah Salon</div>
+                    </div>
+                    <div class="gallery-item rounded-2xl overflow-hidden aspect-[4/3] relative group" data-category="suites">
+                        <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80" alt="Villa 3 Odası" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-espresso-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-medium">Villa 3 &bull; Bahçeye Açılan Yatak Odası</div>
+                    </div>
+                    <div class="gallery-item rounded-2xl overflow-hidden aspect-[4/3] relative group" data-category="exterior">
+                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80" alt="Villa 1 Havuzu" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-espresso-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-medium">Villa 1 &bull; Sonsuzluk Havuzu</div>
+                    </div>
+                    <div class="gallery-item rounded-2xl overflow-hidden aspect-[4/3] relative group" data-category="interior">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Villa 2 Dubleks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-espresso-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-medium">Villa 2 &bull; Yüksek Tavanlı Dubleks Kat</div>
+                    </div>
+                    <div class="gallery-item rounded-2xl overflow-hidden aspect-[4/3] relative group" data-category="suites">
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80" alt="Villa Banyo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-espresso-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-medium">Doğal Taş Banyo & SPA</div>
+                    </div>
+                </div>
+
+                <!-- Simple Testimonials -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="card-modern p-6 rounded-2xl">
+                        <p class="text-xs sm:text-sm text-espresso-700 font-light leading-relaxed mb-4">
+                            "Villa 1'in mimarisi ve teras manzarası beklediğimizden çok daha ferah çıktı. Malzeme kalitesi ve işçilik gerçekten güven veriyor."
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blush-100 flex items-center justify-center font-bold text-blush-700 text-xs">DA</div>
+                            <div>
+                                <div class="text-xs font-semibold text-espresso-900">Danışan A.</div>
+                                <div class="text-[11px] text-espresso-500">Villa 1 Sakini</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-modern p-6 rounded-2xl">
+                        <p class="text-xs sm:text-sm text-espresso-700 font-light leading-relaxed mb-4">
+                            "Örnek Lokasyon 3'teki taş dokusu ve bahçe içindeki sakin atmosfer tam aradığımız gibiydi. Sade ve huzurlu bir yaşam alanı."
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blush-100 flex items-center justify-center font-bold text-blush-700 text-xs">DB</div>
+                            <div>
+                                <div class="text-xs font-semibold text-espresso-900">Danışan B.</div>
+                                <div class="text-[11px] text-espresso-500">Villa 3 Sakini</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 5: İLETİŞİM & VIP KONSİYERJ ================= -->
+            <div id="page-iletisim" class="page-view hidden">
+                <div class="mb-14 text-center max-w-3xl mx-auto">
+                    <span class="inline-block px-3 py-1 rounded-full bg-blush-100 text-blush-700 text-xs font-semibold tracking-wider uppercase mb-3">
+                        KİŞİSEL KONSİYERJ & RANDEVU
+                    </span>
+                    <h2 class="text-3xl sm:text-5xl font-light text-espresso-950 tracking-tight mb-4">
+                        Ayrıcalıklı Yaşama <span class="font-semibold text-espresso-900">İlk Adım</span>
+                    </h2>
+                    <p class="text-espresso-600 text-sm sm:text-base font-light">
+                        Mülklerimiz ve özel arsa geliştirme fırsatları hakkında gizlilik esasıyla bilgi almak için randevu oluşturun.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+                    
+                    <!-- Form -->
+                    <div class="lg:col-span-7">
+                        <div class="card-modern p-8 sm:p-10 rounded-3xl">
+                            <h3 class="text-xl sm:text-2xl font-semibold text-espresso-950 mb-2">Özel Randevu Talebi</h3>
+                            <p class="text-xs text-espresso-600 font-light mb-6">Talebiniz portföy yöneticimize iletilecek ve 24 saat içinde gizlilik esasıyla geri dönülecektir.</p>
+
+                            <form onsubmit="handleContactSubmit(event)" class="space-y-5">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-espresso-800 uppercase tracking-wider mb-1.5">Adınız & Soyadınız *</label>
+                                        <input type="text" required placeholder="Örn. Ad Soyad" class="w-full px-4 py-3 rounded-xl bg-cream-50/80 border border-cream-300/80 text-sm focus:outline-none focus:border-blush-500 transition-colors">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-espresso-800 uppercase tracking-wider mb-1.5">Telefon Numaranız *</label>
+                                        <input type="tel" required placeholder="+90 123 456 78 90" class="w-full px-4 py-3 rounded-xl bg-cream-50/80 border border-cream-300/80 text-sm focus:outline-none focus:border-blush-500 transition-colors">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-espresso-800 uppercase tracking-wider mb-1.5">E-Posta Adresiniz *</label>
+                                        <input type="email" required placeholder="ornek@alanadi.com" class="w-full px-4 py-3 rounded-xl bg-cream-50/80 border border-cream-300/80 text-sm focus:outline-none focus:border-blush-500 transition-colors">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-espresso-800 uppercase tracking-wider mb-1.5">İlgilendiğiniz Konu</label>
+                                        <select id="property-select" class="w-full px-4 py-3 rounded-xl bg-cream-50/80 border border-cream-300/80 text-sm focus:outline-none focus:border-blush-500 transition-colors cursor-pointer">
+                                            <option value="solaria">Villa 1 (Örnek Lokasyon 1)</option>
+                                            <option value="horizon">Villa 2 (Örnek Lokasyon 2)</option>
+                                            <option value="sanctuary">Villa 3 (Örnek Lokasyon 3)</option>
+                                            <option value="land">Bespoke Arsa & Mimari Geliştirme</option>
+                                            <option value="general">Genel Yatırım Danışmanlığı</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-espresso-800 uppercase tracking-wider mb-1.5">Mesajınız & Tercihleriniz</label>
+                                    <textarea rows="3" placeholder="Arzu ettiğiniz mimari özellikler, tahmini yatırım bütçeniz veya ziyaret zamanı..." class="w-full px-4 py-3 rounded-xl bg-cream-50/80 border border-cream-300/80 text-sm focus:outline-none focus:border-blush-500 transition-colors resize-none"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full py-3.5 rounded-xl bg-espresso-900 text-white hover:bg-espresso-800 transition-all text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2">
+                                    <span>Randevu Talebini İlet</span>
+                                    <svg class="w-4 h-4 text-blush-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Right Offices & Direct Line -->
+                    <div class="lg:col-span-5 space-y-5 flex flex-col justify-between">
+                        
+                        <div class="card-modern p-6 sm:p-8 rounded-3xl border-l-4 border-l-blush-500">
+                            <span class="text-[11px] font-semibold text-blush-700 uppercase tracking-wider">Hızlı Danışma Hattı</span>
+                            <h3 class="text-xl font-semibold text-espresso-950 mt-1 mb-2">Özel Varlık Danışmanı</h3>
+                            <p class="text-xs text-espresso-600 font-light mb-5">Haftanın her günü doğrudan portföy yöneticimizle görüşebilirsiniz.</p>
+                            
+                            <div class="flex gap-3">
+                                <button onclick="openPhoneModal()" class="flex-1 py-3 px-4 rounded-xl bg-blush-500 text-white hover:bg-blush-600 transition-colors text-xs font-semibold text-center">
+                                    Hemen Ara
+                                </button>
+                                <a href="https://wa.me/901234567890" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 px-4 rounded-xl bg-cream-200 text-espresso-800 hover:bg-cream-300 transition-colors text-xs font-semibold text-center">
+                                    WhatsApp
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="card-modern p-4 rounded-2xl flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cream-200 flex items-center justify-center font-bold text-espresso-800 text-xs shrink-0">A1</div>
+                                <div>
+                                    <h4 class="text-xs font-semibold text-espresso-900">Merkez Ofis</h4>
+                                    <p class="text-[11px] text-espresso-500 font-light">Örnek Adres No: 123, Örnek Mah. &bull; +90 123 456 78 90</p>
+                                </div>
+                            </div>
+                            <div class="card-modern p-4 rounded-2xl flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cream-200 flex items-center justify-center font-bold text-espresso-800 text-xs shrink-0">A2</div>
+                                <div>
+                                    <h4 class="text-xs font-semibold text-espresso-900">Kıyı Ofisi</h4>
+                                    <p class="text-[11px] text-espresso-500 font-light">Örnek Adres No: 45, Örnek Mah. &bull; +90 123 456 78 90</p>
+                                </div>
+                            </div>
+                            <div class="card-modern p-4 rounded-2xl flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cream-200 flex items-center justify-center font-bold text-espresso-800 text-xs shrink-0">A3</div>
+                                <div>
+                                    <h4 class="text-xs font-semibold text-espresso-900">Uluslararası Ofis</h4>
+                                    <p class="text-[11px] text-espresso-500 font-light">Örnek Adres No: 789, Örnek Mah. &bull; +90 123 456 78 90</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- FAQ Accordion (Lorem Ipsum) -->
+                <div class="max-w-3xl mx-auto pt-6 border-t border-cream-300">
+                    <h3 class="text-xl font-semibold text-espresso-950 text-center mb-6">Sıkça Sorulan Sorular</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="card-modern rounded-2xl overflow-hidden">
+                            <button onclick="toggleFaq(1)" class="w-full p-5 text-left flex items-center justify-between text-sm font-semibold text-espresso-900">
+                                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit?</span>
+                                <span id="faq-icon-1" class="text-blush-600 text-lg">+</span>
+                            </button>
+                            <div id="faq-content-1" class="hidden px-5 pb-5 text-xs text-espresso-600 font-light leading-relaxed border-t border-cream-200 pt-3">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                            </div>
+                        </div>
+
+                        <div class="card-modern rounded-2xl overflow-hidden">
+                            <button onclick="toggleFaq(2)" class="w-full p-5 text-left flex items-center justify-between text-sm font-semibold text-espresso-900">
+                                <span>Duis aute irure dolor in reprehenderit in voluptate velit?</span>
+                                <span id="faq-icon-2" class="text-blush-600 text-lg">+</span>
+                            </button>
+                            <div id="faq-content-2" class="hidden px-5 pb-5 text-xs text-espresso-600 font-light leading-relaxed border-t border-cream-200 pt-3">
+                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.
+                            </div>
+                        </div>
+
+                        <div class="card-modern rounded-2xl overflow-hidden">
+                            <button onclick="toggleFaq(3)" class="w-full p-5 text-left flex items-center justify-between text-sm font-semibold text-espresso-900">
+                                <span>Excepteur sint occaecat cupidatat non proident sunt in culpa?</span>
+                                <span id="faq-icon-3" class="text-blush-600 text-lg">+</span>
+                            </button>
+                            <div id="faq-content-3" class="hidden px-5 pb-5 text-xs text-espresso-600 font-light leading-relaxed border-t border-cream-200 pt-3">
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus eu gravida tempus.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="relative z-10 bg-cream-100/80 border-t border-cream-300/70 pt-12 pb-10 mt-16 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+                <div class="md:col-span-2 space-y-3">
+                    <div class="flex items-baseline gap-2">
+                        <span class="font-display font-bold text-lg text-espresso-950">AUREA</span>
+                        <span class="text-xs text-espresso-500 font-normal tracking-wide">Çağdaş Mimarlık</span>
+                    </div>
+                    <p class="text-xs text-espresso-600 font-light max-w-sm leading-relaxed">
+                        Doğayla bütünleşen heykelsi yapılar, doğal taş zanaatkarlığı ve zamansız yaşam felsefesi.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-xs font-semibold text-espresso-900 uppercase tracking-wider mb-3">Navigasyon</h5>
+                    <ul class="space-y-2 text-xs text-espresso-600 font-light">
+                        <li><button onclick="switchTab('page-home')" class="hover:text-blush-600 transition-colors bg-transparent border-none cursor-pointer">Ana Sayfa</button></li>
+                        <li><button onclick="switchTab('page-koleksiyon')" class="hover:text-blush-600 transition-colors bg-transparent border-none cursor-pointer">Koleksiyon</button></li>
+                        <li><button onclick="switchTab('page-mimari')" class="hover:text-blush-600 transition-colors bg-transparent border-none cursor-pointer">Mimari Felsefe</button></li>
+                        <li><button onclick="switchTab('page-galeri')" class="hover:text-blush-600 transition-colors bg-transparent border-none cursor-pointer">Görsel Galeri</button></li>
+                        <li><button onclick="switchTab('page-iletisim')" class="hover:text-blush-600 transition-colors bg-transparent border-none cursor-pointer">İletişim & Randevu</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xs font-semibold text-espresso-900 uppercase tracking-wider mb-3">Temsilcilikler</h5>
+                    <ul class="space-y-1.5 text-xs text-espresso-600 font-light">
+                        <li>Örnek Lokasyon 1</li>
+                        <li>Örnek Lokasyon 2</li>
+                        <li>Örnek Lokasyon 3</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-cream-300/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-espresso-500 font-light">
+                <div>&copy; 2026 AUREA Development. Tüm hakları saklıdır.</div>
+                <div>
+                    <button onclick="openLegalModal()" class="text-blush-600 hover:underline">Konsept Proje Bildirimi & Lisans</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= FLOATING DOCK ================= -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        <button id="scroll-top-btn" onclick="scrollToTop()" class="w-10 h-10 rounded-full bg-cream-100/90 border border-cream-300 text-espresso-800 shadow-md hover:border-blush-400 hover:text-blush-600 transition-all flex items-center justify-center opacity-0 pointer-events-none transform translate-y-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+        </button>
+
+        <button onclick="openPhoneModal()" class="flex items-center gap-2 bg-espresso-950/90 hover:bg-espresso-900 backdrop-blur-md text-white px-4 py-2.5 rounded-full border border-blush-400/30 shadow-xl hover:shadow-2xl transition-all duration-300 text-xs font-medium tracking-wide cursor-pointer group">
+            <svg class="w-3.5 h-3.5 text-blush-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            <span>Hemen Ara</span>
+        </button>
+    </div>
+
+    <!-- ================= MODALS ================= -->
+    <!-- Detail Modal -->
+    <div id="estate-modal" class="fixed inset-0 z-50 bg-espresso-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="bg-cream-100/95 border border-cream-300/90 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeEstateModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white border border-cream-300 text-espresso-700 hover:bg-cream-200 flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div id="estate-modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Phone Modal -->
+    <div id="phone-modal" class="fixed inset-0 z-50 bg-espresso-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="bg-cream-100/95 border border-cream-300/90 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative text-center">
+            <button onclick="closePhoneModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white border border-cream-300 text-espresso-700 hover:bg-cream-200 flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="w-12 h-12 rounded-full bg-blush-100 text-blush-700 flex items-center justify-center mx-auto mb-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+            </div>
+            <h3 class="text-xl font-semibold text-espresso-950 mb-1">VIP İletişim Hattı</h3>
+            <p class="text-xs text-espresso-600 font-light mb-5">Haftanın 7 günü portföy direktörlerimiz ile anında görüşebilirsiniz.</p>
+            <div class="space-y-2.5">
+                <a href="tel:+901234567890" class="block w-full py-3 rounded-xl bg-espresso-900 text-white font-medium text-xs hover:bg-espresso-800 transition-colors">
+                    +90 123 456 78 90 (Merkez Ofis)
+                </a>
+                <a href="tel:+901234567890" class="block w-full py-3 rounded-xl bg-white border border-cream-300 text-espresso-900 font-medium text-xs hover:bg-cream-100 transition-colors">
+                    +90 123 456 78 90 (Uluslararası Ofis)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal Modal -->
+    <div id="legal-modal" class="fixed inset-0 z-50 bg-espresso-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="bg-cream-100/95 border border-cream-300/90 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeLegalModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white border border-cream-300 text-espresso-700 hover:bg-cream-200 flex items-center justify-center transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 class="text-xl font-semibold text-espresso-950 mb-3">Konsept Tasarım Bildirimi</h3>
+            <div class="text-xs text-espresso-600 font-light space-y-3 leading-relaxed">
+                <p>Bu web sitesi, çağdaş mimari ve lüks konut geliştirme vizyonunu sergilemek amacıyla hazırlanmış bir <strong>konsept tasarım portföyüdür</strong>.</p>
+                <p>Mülk isimleri, telefon numaraları ve temsili yorumlar arayüz deneyimi amacıyla kurgulanmıştır.</p>
+                <p>Açık kaynaklı MIT Lisansı ile yayınlanmıştır.</p>
+            </div>
+            <button onclick="closeLegalModal()" class="mt-6 w-full py-2.5 rounded-xl bg-espresso-900 text-white text-xs font-medium">Anladım</button>
+        </div>
+    </div>
+
+        <!-- Modular Master Application Script -->
+    <script type="module" src="src/scripts/main.js"></script>
+</body>
+</html>

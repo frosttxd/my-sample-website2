@@ -1,0 +1,133 @@
+/**
+ * Custom UI Components & Structural Overrides
+ */
+
+/* Liquid Fusion Wave Canvas (White & Deep Warm Espresso) */
+#wave-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(36px);
+    opacity: 1;
+    transform: scale(1.06);
+}
+
+/* Soothing Warm Alabaster Frosted Cards */
+.card-modern {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(245, 196, 183, 0.35);
+    box-shadow: 0 10px 32px -8px rgba(164, 80, 62, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-modern:hover {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(217, 130, 111, 0.5);
+    box-shadow: 0 20px 45px -10px rgba(164, 80, 62, 0.12), 0 4px 12px rgba(217, 130, 111, 0.08);
+    transform: translateY(-3px);
+}
+
+/* Primary Contemporary Button */
+.btn-primary {
+    background-color: #1F1A17;
+    color: #FAF6F2;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(31, 26, 23, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #C46752;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(196, 103, 82, 0.28);
+}
+
+/* Outline Soft Button */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #1F1A17;
+    border: 1px solid rgba(217, 130, 111, 0.35);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 11px 22px;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-secondary:hover {
+    background: #FFFFFF;
+    border-color: #C46752;
+    color: #C46752;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(196, 103, 82, 0.15);
+}
+
+/* Nav Pills */
+.nav-pill {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #5C544E;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    transition: all 0.25s ease;
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.nav-pill:hover {
+    color: #1F1A17;
+    background: rgba(245, 240, 234, 0.7);
+}
+
+.nav-pill-active {
+    color: #1F1A17 !important;
+    font-weight: 600 !important;
+    background: linear-gradient(135deg, rgba(252, 249, 245, 0.95), rgba(246, 241, 235, 0.92)) !important;
+    box-shadow: 0 4px 14px -2px rgba(32, 22, 17, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(215, 200, 188, 0.6) !important;
+}
+
+/* Smooth Tab Transition */
+.page-view {
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Editorial Minimal Scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FAF6F2;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #DDCFC4;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #C46752;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "aurea-development",
+  "version": "1.0.0",
+  "description": "Bespoke contemporary architectural living showcase website engineered with zero framework bloat, featuring an autonomous liquid fusion background canvas and refined minimalist aesthetics.",
+  "main": "src/scripts/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node serve.js",
+    "dev": "node serve.js"
+  },
+  "keywords": [
+    "architecture",
+    "contemporary-living",
+    "luxury-estates",
+    "tailwind-css",
+    "canvas-2d",
+    "vanilla-javascript",
+    "minimalism",
+    "frontend"
+  ],
+  "author": "",
+  "license": "MIT"
+}

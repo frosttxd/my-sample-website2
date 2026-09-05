@@ -1,0 +1,36 @@
+/**
+ * Animations & Keyframes
+ */
+@keyframes tabGlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(26px) scale(0.985);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.tab-anim-in {
+    animation: tabGlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-ticker {
+    display: flex;
+    width: 200%;
+    animation: ticker 42s linear infinite;
+}
+
+.animate-ticker:hover {
+    animation-play-state: paused;
+}

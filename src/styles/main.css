@@ -1,0 +1,17 @@
+/**
+ * Master Stylesheet
+ * Orchestrates modular CSS subsystems into a unified production pipeline
+ */
+@import './tokens.css';
+@import './animations.css';
+@import './components.css';
+
+/* Base Styling with Soft Warm Alabaster Palette */
+body {
+    background-color: #FAF6F2;
+    color: #433C37;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
